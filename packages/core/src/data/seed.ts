@@ -1,0 +1,135 @@
+import type { Disease, Plant } from '@apri/schemas';
+
+const now = '2024-01-01T00:00:00.000Z';
+const audit = { createdAt: now, updatedAt: now, createdBy: 'seed', updatedBy: 'seed', version: 1 };
+
+/** Curated starter set of Northern-Nigerian medicinal plants. */
+export const SEED_PLANTS: Plant[] = [
+  {
+    id: 'moringa-oleifera',
+    name: { ha: 'Zogale', en: 'Moringa' },
+    scientificName: 'Moringa oleifera',
+    family: 'Moringaceae',
+    genus: 'Moringa',
+    synonyms: ['Drumstick tree'],
+    habitat: { ha: 'Yana girma a wuraren bushasshe', en: 'Grows in dry, semi-arid regions' },
+    distribution: [{ region: 'Kano', source: 'field-survey' }],
+    description: {
+      ha: 'Itaciyar zogale tana da ganye mai gina jiki da amfani iri-iri.',
+      en: 'A fast-growing tree whose nutrient-rich leaves are widely used.',
+    },
+    localUses: [
+      { use: { ha: 'Maganin karancin jini', en: 'Used for anaemia' }, partUsed: 'leaves' },
+      { use: { ha: 'Kara kuzari', en: 'Nutritional supplement' }, partUsed: 'leaves' },
+    ],
+    conservationStatus: 'least_concern',
+    compoundIds: ['quercetin'],
+    diseaseIds: ['anaemia'],
+    imageIds: [],
+    searchKeywords: ['zogale', 'moringa', 'moringa oleifera', 'drumstick'],
+    status: 'published',
+    audit,
+  },
+  {
+    id: 'azadirachta-indica',
+    name: { ha: 'Dogon yaro', en: 'Neem' },
+    scientificName: 'Azadirachta indica',
+    family: 'Meliaceae',
+    genus: 'Azadirachta',
+    synonyms: ['Indian lilac'],
+    habitat: { ha: 'Yana girma a ko\'ina a Arewa', en: 'Common across Northern Nigeria' },
+    distribution: [{ region: 'Sokoto', source: 'field-survey' }],
+    description: {
+      ha: 'Dogon yaro itaciya ce da ake amfani da ita wajen magani.',
+      en: 'A hardy tree widely used in traditional medicine.',
+    },
+    localUses: [
+      { use: { ha: 'Maganin zazzabi', en: 'Used for fever/malaria' }, partUsed: 'leaves' },
+    ],
+    conservationStatus: 'least_concern',
+    compoundIds: [],
+    diseaseIds: ['malaria'],
+    imageIds: [],
+    searchKeywords: ['dogon yaro', 'neem', 'azadirachta indica'],
+    status: 'published',
+    audit,
+  },
+  {
+    id: 'hibiscus-sabdariffa',
+    name: { ha: 'Yakuwa / Zobo', en: 'Roselle' },
+    scientificName: 'Hibiscus sabdariffa',
+    family: 'Malvaceae',
+    genus: 'Hibiscus',
+    synonyms: ['Zobo', 'Sorrel'],
+    habitat: { ha: 'Ana noma shi a Arewa', en: 'Cultivated across the savanna' },
+    distribution: [{ region: 'Kaduna', source: 'field-survey' }],
+    description: {
+      ha: 'Ana amfani da furannin yakuwa wajen yin abin sha mai amfani.',
+      en: 'Its calyces are used to make the popular zobo drink.',
+    },
+    localUses: [
+      { use: { ha: 'Rage hawan jini', en: 'May support healthy blood pressure' }, partUsed: 'calyx' },
+    ],
+    conservationStatus: 'least_concern',
+    compoundIds: [],
+    diseaseIds: ['hypertension'],
+    imageIds: [],
+    searchKeywords: ['yakuwa', 'zobo', 'roselle', 'hibiscus sabdariffa'],
+    status: 'published',
+    audit,
+  },
+];
+
+export const SEED_DISEASES: Disease[] = [
+  {
+    id: 'malaria',
+    name: { ha: 'Zazzabin cizon sauro', en: 'Malaria' },
+    category: 'Infectious',
+    description: {
+      ha: 'Cuta da sauro mai dauke da kwayar cutar Plasmodium ke yadawa.',
+      en: 'A mosquito-borne disease caused by Plasmodium parasites.',
+    },
+    symptoms: [{ ha: 'Zazzabi', en: 'Fever' }, { ha: 'Ciwon kai', en: 'Headache' }],
+    riskFactors: [{ ha: 'Cizon sauro', en: 'Mosquito exposure' }],
+    prevention: [{ ha: 'Yin amfani da gidan sauro', en: 'Use of insecticide-treated nets' }],
+    relatedPlantIds: ['azadirachta-indica'],
+    relatedCompoundIds: [],
+    disclaimerRequired: true,
+    status: 'published',
+    audit,
+  },
+  {
+    id: 'anaemia',
+    name: { ha: 'Karancin jini', en: 'Anaemia' },
+    category: 'Nutritional',
+    description: {
+      ha: 'Yanayin da jiki ke da karancin kwayoyin jini masu jan launi.',
+      en: 'A condition marked by a deficiency of red blood cells.',
+    },
+    symptoms: [{ ha: 'Gajiya', en: 'Fatigue' }, { ha: 'Fari', en: 'Paleness' }],
+    riskFactors: [{ ha: 'Rashin abinci mai gina jini', en: 'Poor nutrition' }],
+    prevention: [{ ha: 'Cin abinci mai sinadarin iron', en: 'Iron-rich diet' }],
+    relatedPlantIds: ['moringa-oleifera'],
+    relatedCompoundIds: [],
+    disclaimerRequired: true,
+    status: 'published',
+    audit,
+  },
+  {
+    id: 'hypertension',
+    name: { ha: 'Hawan jini', en: 'Hypertension' },
+    category: 'Cardiovascular',
+    description: {
+      ha: 'Yanayin da matsin jini ya yi yawa sosai.',
+      en: 'Persistently elevated blood pressure.',
+    },
+    symptoms: [{ ha: 'Ciwon kai', en: 'Headache' }],
+    riskFactors: [{ ha: 'Yawan gishiri', en: 'High salt intake' }],
+    prevention: [{ ha: 'Rage gishiri', en: 'Reduce salt intake' }],
+    relatedPlantIds: ['hibiscus-sabdariffa'],
+    relatedCompoundIds: [],
+    disclaimerRequired: true,
+    status: 'published',
+    audit,
+  },
+];
