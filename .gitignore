@@ -1,0 +1,35 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# builds
+dist/
+.next/
+out/
+build/
+*.tsbuildinfo
+
+# env
+.env
+.env.local
+.env*.local
+*.env.secrets
+
+# firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+*-debug.log
+serviceAccount*.json
+
+# misc
+.DS_Store
+.turbo/
+coverage/
+.vercel/
+*.log
+.idea/
+.vscode/*
+!.vscode/extensions.json
