@@ -1,0 +1,24 @@
+{
+  "name": "@apri/functions",
+  "version": "0.1.0",
+  "private": true,
+  "main": "lib/index.js",
+  "engines": {
+    "node": "20"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src --max-warnings 0",
+    "typecheck": "tsc --noEmit",
+    "serve": "npm run build && firebase emulators:start --only functions"
+  },
+  "dependencies": {
+    "firebase-admin": "12.4.0",
+    "firebase-functions": "5.0.1"
+  },
+  "devDependencies": {
+    "@apri/config": "workspace:*",
+    "eslint": "8.57.0",
+    "typescript": "5.5.4"
+  }
+}

@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* APRI theme: green / gold / white */
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --primary: 123 46% 24%; /* deep green #1B5E20 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 122 39% 34%; /* #2E7D32 */
+    --secondary-foreground: 0 0% 100%;
+    --accent: 45 70% 47%; /* gold #C9A227 */
+    --accent-foreground: 222 47% 11%;
+    --muted: 120 12% 95%;
+    --muted-foreground: 215 16% 40%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 120 10% 88%;
+    --input: 120 10% 88%;
+    --ring: 123 46% 24%;
+    --radius: 0.6rem;
+  }
+
+  .dark {
+    --background: 150 20% 6%;
+    --foreground: 0 0% 98%;
+    --card: 150 18% 9%;
+    --card-foreground: 0 0% 98%;
+    --primary: 122 39% 49%;
+    --primary-foreground: 150 20% 6%;
+    --secondary: 122 30% 30%;
+    --secondary-foreground: 0 0% 98%;
+    --accent: 45 70% 52%;
+    --accent-foreground: 150 20% 6%;
+    --muted: 150 12% 16%;
+    --muted-foreground: 150 8% 65%;
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 150 12% 20%;
+    --input: 150 12% 20%;
+    --ring: 122 39% 49%;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

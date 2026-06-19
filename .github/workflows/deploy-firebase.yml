@@ -1,0 +1,38 @@
+name: Deploy Firebase
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'infra/**'
+      - 'functions/**'
+      - 'firebase.json'
+  workflow_dispatch:
+
+# Requires repo secrets: FIREBASE_PROJECT_ID and Workload Identity / FIREBASE_TOKEN.
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build functions
+        run: pnpm --filter @apri/functions build
+
+      - name: Deploy rules, indexes & functions
+        run: npx firebase-tools deploy --only firestore:rules,firestore:indexes,storage,functions --project "$FIREBASE_PROJECT_ID" --non-interactive
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

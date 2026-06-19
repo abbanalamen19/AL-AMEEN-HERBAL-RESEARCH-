@@ -1,0 +1,68 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() { return request.auth != null; }
+    function role() { return isSignedIn() ? request.auth.token.role : 'public'; }
+    function isStaff() { return role() in ['super_admin', 'researcher']; }
+    function isContributor() { return role() in ['super_admin', 'researcher', 'practitioner', 'contributor']; }
+
+    // Public read of published content; staff can read everything.
+    function publishedOrStaff() {
+      return resource.data.status == 'published' || isStaff();
+    }
+
+    match /users/{userId} {
+      allow read: if isSignedIn() && (request.auth.uid == userId || role() == 'super_admin');
+      allow create: if isSignedIn() && request.auth.uid == userId;
+      allow update: if request.auth.uid == userId || role() == 'super_admin';
+      allow delete: if role() == 'super_admin';
+    }
+
+    match /plants/{id} {
+      allow read: if publishedOrStaff();
+      allow create: if isContributor();
+      allow update, delete: if isStaff();
+      match /{sub=**} {
+        allow read: if publishedOrStaff();
+        allow write: if isStaff();
+      }
+    }
+
+    match /diseases/{id}   { allow read: if publishedOrStaff(); allow write: if isStaff(); }
+    match /compounds/{id}  { allow read: if publishedOrStaff(); allow write: if isStaff(); }
+    match /monographs/{id} { allow read: if publishedOrStaff(); allow write: if isStaff(); }
+    match /references/{id} { allow read: if publishedOrStaff(); allow write: if isStaff(); }
+    match /clinical_evidence/{id} {
+      allow read: if role() in ['super_admin', 'researcher', 'practitioner'];
+      allow write: if isStaff();
+    }
+
+    match /formulations/{id} {
+      allow read: if isSignedIn() && (resource.data.authorId == request.auth.uid || isStaff());
+      allow create: if role() in ['super_admin', 'researcher', 'practitioner'];
+      allow update, delete: if resource.data.authorId == request.auth.uid || role() == 'super_admin';
+    }
+
+    match /journals/{id} {
+      allow read: if resource.data.visibility == 'public' || (isSignedIn() && resource.data.authorId == request.auth.uid) || isStaff();
+      allow create: if isContributor();
+      allow update, delete: if (isSignedIn() && resource.data.authorId == request.auth.uid) || role() == 'super_admin';
+    }
+
+    match /market_data/{id} { allow read: if true; allow write: if isStaff(); }
+    match /museum/{id}      { allow read: if publishedOrStaff(); allow write: if isStaff(); }
+    match /media/{id}       { allow read: if true; allow write: if isContributor(); }
+
+    match /voice_sessions/{id} {
+      allow read, write: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // Audit logs are written only by trusted server (Admin SDK / Functions).
+    match /audit_logs/{id} {
+      allow read: if role() == 'super_admin';
+      allow write: if false;
+    }
+  }
+}
